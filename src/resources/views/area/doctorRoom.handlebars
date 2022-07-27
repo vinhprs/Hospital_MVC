@@ -1,0 +1,31 @@
+<div class="mt-4">
+  <h1 style="text-align: center;">Welcome Doctors Room Area</h1>
+  <div class="row">
+    {{#each doctors}}
+    <div class="col-6 col-sm-3 mt-4">
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="https://thumbs.dreamstime.com/b/doctor-icon-flat-style-white-background-doctor-icon-flat-style-doctor-logo-black-circle-147237145.jpg" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Bác sĩ {{this.name}}</h5>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Khoa {{this.specialist}}</li>
+                <li class="list-group-item">Current Patients: {{this.currentSlot}} / {{this.slot}}</li>
+            </ul>
+            <div class="card-body">
+                <a href="/doctorRoom/{{this.id}}" class="btn btn-primary">Get in</a>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+      
+  </div>
+</div>
+
+{{!-- styling UI --}}
+<style>
+    .card {
+        text-align: center;
+    }
+    
+</style>

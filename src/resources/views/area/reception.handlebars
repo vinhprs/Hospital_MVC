@@ -1,0 +1,119 @@
+<div class="mt-4">
+  <h1 style="text-align: center;">Welcome to Hospital's Reception</h1>
+  <div class="row">
+    {{#each doctors}}
+    <div class="col-6 col-sm-3 mt-4">
+      <ul class="list-group">
+          <li class="list-group-item active">Bác sĩ {{this.name}}</li>
+          <li class="list-group-item">Khoa {{this.specialist}}</li>
+          <li class="list-group-item">Current Patients: {{this.currentSlot}} / {{this.slot}}</li>
+      </ul>
+    </div>
+    {{/each}}
+      
+  </div>
+</div>
+
+{{!-- List patients --}}
+<h4 class="mt-4">Patients waiting to be moved to the doctor's room</h4>
+
+<form action="/doctorRoom/recievePatient" method="POST">
+  <button type="submit" class="btn btn-primary mt-4" style=" padding: 8px">Put patients in</button>
+</form>
+
+<div>
+    <table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Age</th>
+      <th scope="col">Diseases</th>
+      <th scope="col">Specialist</th>
+      <th scope="col">Priority</th>
+      <th scope="col">Date</th>
+      <th scope="col">Insurance</th>
+      <form action="/reception/sort" method="POST">
+  <button type="submit" class="btn btn-primary" style="margin-left: 988px; margin-bottom: -70px;
+   padding: 12px;font-size: 16px; border: 2px solid; border-color: #32383e">Sort Patients</button> 
+</form>
+    </tr>
+  </thead>
+  
+  <tbody>
+  {{#each items}}
+    <tr>
+      <th scope="row">{{sum @index 1}}</th>
+      <td>{{this.name}}</td>
+      <td>{{this.age}}</td>
+      <td>{{this.disease}}</td>
+      <td>{{this.specialist}}</td>
+      <td>{{this.priority}}</td>
+      <td>{{this.date}}</td>
+      <td>{{this.number}}</td>
+      <td> 
+        <a href="" id="editProfile" class="btn btn-link" data-toggle="modal"
+         data-target="#edit-patient-modal" data-index="{{@index}}">Edit</a>
+      </td>
+    </tr>
+  {{/each}}
+  </tbody>
+</table>
+</div>
+
+{{!-- Modal edit patient's info --}}
+<div id="edit-patient-modal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit patient's info </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form name="frm-save" method="POST">
+
+            <div class="form-group">
+              <label for="number">Insurance number</label>
+              <input type="text" class="form-control" id="number" name="number" placeholder="Enter patient's insurance number" required>
+            </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" id="btn-save">Save changes</button>
+        </div>
+
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+{{!-- Style --}}
+<style>
+    .list-group li:first-child  {
+        background-color: #212529;
+    }
+    .list-group li {
+        text-align: center;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var patientIndex  
+        var saveForm = document.forms['frm-save']
+        const btnSave = document.getElementById('btn-save')
+
+        $('#edit-patient-modal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget)
+        patientIndex = button.data('index')
+})
+        btnSave.onclick = function() {
+          saveForm.action = '/reception/edit/' + patientIndex
+          saveForm.submit()
+        }
+    })
+</script>

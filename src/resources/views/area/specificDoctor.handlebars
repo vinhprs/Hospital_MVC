@@ -1,0 +1,33 @@
+<div class="mt-4">
+  <h1 style="text-align: center;">Room of Dr {{name}}</h1>
+  <h3 class="mt-4">Doctor {{name}} is treating for patient: {{items.[0].element.name}}</h3>
+  <table class="table mt-4">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Age</th>
+        <th scope="col">Diseases</th>
+        <th scope="col">Date</th>
+  </form>
+      </tr>
+    </thead>
+    <tbody>
+    {{#each items}}
+      <tr>
+        <th scope="row">{{sum @index 1}}</th>
+        <td>{{this.name}}</td>
+        <td>{{this.age}}</td>
+        <td>{{this.disease}}</td>
+        <td>{{this.date}}</td>
+        <td>
+          <form action="/doctorRoom/{{this.doctorID}}/donePatient/{{@index}}" method="POST" style="margin-top: -24px;">
+      <button type="submit" class="btn btn-primary mt-4"
+      id="submit-form">Done</button>  
+          </form>
+        </td>
+      </tr>
+    {{/each}}
+    </tbody>
+  </table>
+</div>

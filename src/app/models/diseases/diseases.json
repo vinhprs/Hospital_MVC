@@ -1,0 +1,107 @@
+[
+    {
+        "id": "D01",
+        "name": "Cảm xoàn",
+        "priority": 20,
+        "specialist": "Tai mũi họng"
+    },
+
+    {
+        "id": "D02",
+        "name": "Viêm amidan",
+        "priority": 19,
+        "specialist": "Tai mũi họng"
+    },
+
+    {
+        "id": "D03",
+        "name": "Covid 19",
+        "priority": 5,
+        "specialist": "Tai mũi họng"
+    },
+    
+    {
+        "id": "D04",
+        "name": "Bong gân",
+        "priority": 10,
+        "specialist": "Chấn thương"
+    },
+
+    {
+        "id": "D05",
+        "name": "Giãn dây chằng",
+        "priority": 12,
+        "specialist": "Chấn thương"
+    },
+    
+    {
+        "id": "D06",
+        "name": "Gãy tay",
+        "priority": 2,
+        "specialist": "Chấn thương"
+    },
+
+    {
+        "id": "D07",
+        "name": "Gãy chân",
+        "priority": 2,
+        "specialist": "Chấn thương"
+    },
+    
+    {
+        "id": "D08",
+        "name": "Chấn thương sọ não",
+        "priority": 1,
+        "specialist": "Chấn thương"
+    },
+
+    {
+        "id": "D09",
+        "name": "Hở van tim",
+        "priority": 15,
+        "specialist": "Tim mạch"
+    },
+    
+    {
+        "id": "D10",
+        "name": "Đái tháo đường",
+        "priority": 17,
+        "specialist": "Tim mạch"
+    },
+
+    {
+        "id": "D11",
+        "name": "Đau tim nhẹ",
+        "priority": 5,
+        "specialist": "Tim mạch"
+    },
+    
+    {
+        "id": "D12",
+        "name": "Nhồi máu cơ tim",
+        "priority": 1,
+        "specialist": "Tim mạch"
+    },
+
+    {
+        "id": "D13",
+        "name": "Đau mắt đỏ",
+        "priority": 15,
+        "specialist": "Mắt"
+    },
+    
+    {
+        "id": "D14",
+        "name": "Đục thủy tinh thể",
+        "priority": 6,
+        "specialist": "Mắt"
+    },
+
+    {
+        "id": "D15",
+        "name": "Tăng nhãn áp",
+        "priority": 3,
+        "specialist": "Mắt"
+    }
+
+]
