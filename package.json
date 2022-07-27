@@ -15,8 +15,10 @@
     "express-handlebars": "^6.0.6",
     "fs": "^0.0.1-security",
     "handlebars": "^4.7.7",
+    "heroku": "^7.60.2",
     "jquery": "^3.6.0",
     "nodemon": "^2.0.16",
+    "npx": "^10.2.2",
     "socket.io": "^4.5.1"
   }
 }
