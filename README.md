@@ -1,8 +1,22 @@
 # Hospital_MVC
 ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB) ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white) ![Bootstrap](https://img.shields.io/badge/bootstrap-%23563D7C.svg?style=for-the-badge&logo=bootstrap&logoColor=white) ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
 
+![image](https://user-images.githubusercontent.com/77932499/181877616-8964f216-c070-4709-8a29-4a2d023471bd.png)
+![image](https://user-images.githubusercontent.com/77932499/181877631-5abbceca-1e1f-457d-a3ec-0a5c57b4b715.png)
 
 
-<mxGraphModel><root><mxCell id="0"/><mxCell id="1" parent="0"/><mxCell id="2" value="&lt;h1&gt;Lời dẫn&lt;/h1&gt;&lt;p&gt;Hãy thử tưởng tượng bạn đang quản lý một bệnh viện với số lượng bệnh nhân tương đối đông, nhưng số lượng bác sỹ thì có hạn. Do đó phải có một phương pháp nào đó để giải quyết vấn đề ùn tắt bệnh nhân, tránh bị quá tải, và bạn chọn phương pháp ưu tiên, những người cần ưu tiên thì phải được chữa trị trước, thay vì ai vào trước thì cứ phải chữa trị trước.&amp;nbsp;&lt;/p&gt;&lt;p&gt;Bệnh viện có 1 phòng tiếp tân, nơi tiếp nhận bệnh nhân có thể chứa tối đa là 10 bệnh nhân cùng lúc, đồng thời điều phối bệnh nhân lên phòng các bác sĩ chuyên khoa, nơi bệnh nhân sẽ được trực tiếp chữa trị.&amp;nbsp;&lt;/p&gt;&lt;p&gt;Mỗi bác sĩ chuyên khoa có một văn phòng riêng, nơi mà chỉ có thể chứa tối đa là từ 2 - 4 bệnh nhân cùng một lúc. có 2 bác sĩ cùng một chuyên khoa, nếu một bác sĩ đã đầy bệnh nhân, thì bệnh nhân sẽ phải chuyển đến bác sĩ còn lại, nếu cả 2 bác sĩ đã đầy bệnh nhân, thì bệnh nhân phải chờ ở phòng tiếp tân.&amp;nbsp;&amp;nbsp;&lt;/p&gt;&lt;p&gt;Khi phòng tiếp tân tiếp nhận bệnh nhân, thì mức ưu tiên ở đây chính là việc các phòng của bác sĩ còn trống hay không, mới thuyên chuyển bệnh nhân, thay vì là loại bệnh như trước đây.&amp;nbsp;&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="1"><mxGeometry x="100" y="80" width="660" height="250" as="geometry"/></mxCell></root></mxGraphModel>
+*** Tính năng của APP ***
+![image](https://user-images.githubusercontent.com/77932499/181877693-755d905c-b026-4ee4-8ab1-8bee94758396.png)
+
+*** Các lưu ý ***
+![image](https://user-images.githubusercontent.com/77932499/181877708-49d5c913-500a-4ce5-99c6-652c9fcf0bcf.png)
+
+*** Mô tả sơ đồ bệnh viên ***
+![image](https://user-images.githubusercontent.com/77932499/181877729-ed47bf77-cfdb-4dba-b145-a80a69520681.png)
+
+
+![image](https://user-images.githubusercontent.com/77932499/181877767-7011759f-afdb-4a14-a714-d5e6f7e6062d.png)
+
+
 
 <a href="https://hospital-manager-demo.herokuapp.com">Demo</a>
