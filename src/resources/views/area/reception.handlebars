@@ -1,6 +1,6 @@
 <div class="mt-4">
   <h1 style="text-align: center;">Welcome to Hospital's Reception</h1>
-  <div class="row">
+  <div class="row" id="doctors-render">
     {{#each doctors}}
     <div class="col-6 col-sm-3 mt-4">
       <ul class="list-group">
@@ -40,7 +40,7 @@
     </tr>
   </thead>
   
-  <tbody>
+  <tbody id="patients-render">
   {{#each items}}
     <tr>
       <th scope="row">{{sum @index 1}}</th>
@@ -101,7 +101,10 @@
     }
 </style>
 
+<script src="/socket.io/socket.io.js"></script>
 <script>
+
+    // edit insurance number
     document.addEventListener('DOMContentLoaded', function() {
         var patientIndex  
         var saveForm = document.forms['frm-save']
@@ -116,4 +119,120 @@
           saveForm.submit()
         }
     })
+
+    // socket io
+    const socket = io();
+    
+    const patients = document.getElementById('patients-render')
+    const doctors = document.getElementById('doctors-render')
+
+    const renderPatients = function(data) {
+      patients.innerText = ''
+      data.inReceptionData.items.map((element, index) => {
+
+      let tableRow = document.createElement('tr')
+      let tableHeadId = document.createElement('th')
+      tableHeadId.textContent = index + 1
+      let name = document.createElement('td')
+      name.textContent = element.name
+      let age = document.createElement('td')
+      age.textContent = element.age
+      let disease = document.createElement('td')
+      disease.textContent = element.disease
+      let priority = document.createElement('td')
+      priority.textContent = element.priority
+      let date = document.createElement('td')
+      date.textContent = element.date
+      let number = document.createElement('td')
+      number.textContent = element.number
+
+      tableRow.appendChild(tableHeadId)
+      tableRow.appendChild(name)
+      tableRow.appendChild(age)
+      tableRow.appendChild(disease)
+      tableRow.appendChild(priority)
+      tableRow.appendChild(date)
+      tableRow.appendChild(number)
+
+      patients.appendChild(tableRow)
+    })
+    }
+
+    const renderDoctorRooms = function(data) {
+      doctors.innerText = ''
+
+      data.doctorRoomData.doctors.map(element => {
+
+        let col = document.createElement('div')
+        col.classList = 'col-6 col-sm-3 mt-4'
+        
+        let doctorList = document.createElement('ul')
+        doctorList.classList = 'list-group'
+
+        let doctorName = document.createElement('li')
+        doctorName.classList = 'list-group-item active'
+        doctorName.textContent = 'Bác sĩ ' + element.name
+        let doctorSpecialist = document.createElement('li')
+        doctorSpecialist.classList = 'list-group-item'
+        doctorSpecialist.textContent = 'Khoa ' + element.specialist
+        let doctorCurentSlot = document.createElement('li')
+        doctorCurentSlot.classList = 'list-group-item'
+        doctorCurentSlot.textContent = `Current Patients: ${element.currentSlot} / ${element.slot}`
+
+        doctorList.appendChild(doctorName)
+        doctorList.appendChild(doctorSpecialist)
+        doctorList.appendChild(doctorCurentSlot)
+
+        col.appendChild(doctorList)
+        doctors.appendChild(col)
+      })
+    }
+
+    socket.on('moveRepception-form', async function(data) {
+      renderPatients(data)
+    })
+
+    // edit insurance number
+    socket.on('editReception', async function(data) {
+      patients.innerText = ''
+      data.items.map((element, index) => {
+
+      let tableRow = document.createElement('tr')
+      let tableHeadId = document.createElement('th')
+      tableHeadId.textContent = index + 1
+      let name = document.createElement('td')
+      name.textContent = element.name
+      let age = document.createElement('td')
+      age.textContent = element.age
+      let disease = document.createElement('td')
+      disease.textContent = element.disease
+      let priority = document.createElement('td')
+      priority.textContent = element.priority
+      let date = document.createElement('td')
+      date.textContent = element.date
+      let number = document.createElement('td')
+      number.textContent = element.number
+
+      tableRow.appendChild(tableHeadId)
+      tableRow.appendChild(name)
+      tableRow.appendChild(age)
+      tableRow.appendChild(disease)
+      tableRow.appendChild(priority)
+      tableRow.appendChild(date)
+      tableRow.appendChild(number)
+
+      patients.appendChild(tableRow)
+    })
+    })
+
+    // move to doctor rooms 
+    socket.on('moveToDoctors', function(data) {
+      renderPatients(data)
+      renderDoctorRooms(data)
+    })
+
+    socket.on('donePatient', function(data) {
+      renderDoctorRooms(data)
+    })
+
 </script>

@@ -60,6 +60,7 @@ class FileClass {
             fileItem.sort(compare)
             await this.writeFile(fileName, inFile)
 
+            return inFile
         } catch(e) {
             throw new Error(e)
         }
@@ -71,9 +72,10 @@ class FileClass {
             const inFile = await this.readFile(fileName)
             const fileItem = inFile.items
 
-            fileItem[index].element.number = number
+            fileItem[index].number = number
 
             await this.writeFile(fileName, inFile)
+            return inFile
         } catch(e) {
             throw new Error(e)
         }

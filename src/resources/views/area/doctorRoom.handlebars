@@ -1,6 +1,6 @@
 <div class="mt-4">
   <h1 style="text-align: center;">Welcome Doctors Room Area</h1>
-  <div class="row">
+  <div class="row" id="doctors-render">
     {{#each doctors}}
     <div class="col-6 col-sm-3 mt-4">
         <div class="card" style="width: 18rem;">
@@ -29,3 +29,77 @@
     }
     
 </style>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket = io();
+    
+    const doctors = document.getElementById('doctors-render')
+
+    const renderDoctorRooms = function(data) {
+      doctors.innerText = ''
+
+      data.doctorRoomData.doctors.map(element => {
+
+        let col = document.createElement('div')
+        col.classList = 'col-6 col-sm-3 mt-4'
+        
+        let doctorCard = document.createElement('div')
+        doctorCard.classList = 'card'
+        doctorCard.style.width = '18rem' 
+
+        let doctorImg = document.createElement('img')
+        doctorImg.classList = 'card-img-top'
+        doctorImg.src = "https://thumbs.dreamstime.com/b/doctor-icon-flat-style-white-background-doctor-icon-flat-style-doctor-logo-black-circle-147237145.jpg"
+        doctorImg.alt = "Card image cap"
+
+        let doctorCardBody = document.createElement('div')
+        doctorCardBody.classList = 'card-body'
+
+        let doctorCardTitle = document.createElement('h5')
+        doctorCardTitle.classList = 'card-title'
+        doctorCardTitle.textContent = `Bác sĩ ${element.name}`
+
+        let doctorList = document.createElement('ul')
+        doctorList.classList = "list-group list-group-flush"
+
+        let doctorSpecialist = document.createElement('li')
+        doctorSpecialist.classList = "list-group-item"
+        doctorSpecialist.textContent = `Khoa ${element.specialist}`
+
+        let doctorSlot = document.createElement('li')
+        doctorSlot.classList = "list-group-item"
+        doctorSlot.textContent = `Current Patients: ${element.currentSlot} / ${element.slot}`
+
+        let getIn = document.createElement('div')
+        getIn.classList = "card-body"
+
+        let btnGetIn = document.createElement('a')
+        btnGetIn.href = `/doctorRoom/${element.id}`
+        btnGetIn.classList = "btn btn-primary"
+        btnGetIn.textContent = 'Get in'
+
+        doctorCardBody.appendChild(doctorCardTitle)
+        doctorList.appendChild(doctorSpecialist)
+        doctorList.appendChild(doctorSlot)
+        getIn.appendChild(btnGetIn)
+
+        doctorCard.appendChild(doctorImg)
+        doctorCard.appendChild(doctorCardBody)
+        doctorCard.appendChild(doctorList)
+        doctorCard.appendChild(getIn)
+
+        col.appendChild(doctorCard)
+
+        doctors.appendChild(col)
+      })
+    }
+
+    socket.on('moveToDoctors', function(data) {
+      renderDoctorRooms(data)
+    })
+
+    socket.on('donePatient', function(data) {
+      renderDoctorRooms(data)
+    })
+</script>

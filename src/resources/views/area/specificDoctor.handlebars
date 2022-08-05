@@ -1,6 +1,6 @@
 <div class="mt-4">
   <h1 style="text-align: center;">Room of Dr {{name}}</h1>
-  <h3 class="mt-4">Doctor {{name}} is treating for patient: {{items.[0].element.name}}</h3>
+  <h3 class="mt-4">Doctor {{name}} is treating for patient: {{items.[0].name}}</h3>
   <table class="table mt-4">
     <thead class="thead-dark">
       <tr>
@@ -12,7 +12,7 @@
   </form>
       </tr>
     </thead>
-    <tbody>
+    <tbody id="patients-render">
     {{#each items}}
       <tr>
         <th scope="row">{{sum @index 1}}</th>
@@ -31,3 +31,102 @@
     </tbody>
   </table>
 </div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket = io()
+
+    const patients = document.getElementById('patients-render')
+
+    const renderPatients = function(data) {
+      patients.innerText = ''
+
+      for(let doctor of data.invidualDoctor) {
+        if(doctor.id != `{{id}}`)
+          continue
+        doctor.patients.map((element, index) => {
+          let tableRow = document.createElement('tr')
+          let tableHeadId = document.createElement('th')
+          tableHeadId.scope = 'row'
+          tableHeadId.textContent = index + 1
+          let name = document.createElement('td')
+          name.textContent = element.name
+          let age = document.createElement('td')
+          age.textContent = element.age
+          let disease = document.createElement('td')
+          disease.textContent = element.disease
+          let date = document.createElement('td')
+          date.textContent = element.date 
+
+          let doneCol = document.createElement('td')
+          let doneForm = document.createElement('form')
+          doneForm.action = `/doctorRoom/${element.doctorID}/donePatient/${index}`
+          doneForm.method = 'POST'
+          doneForm.style.marginTop = '-24px'
+          let doneBtn = document.createElement('button')
+          doneBtn.type = 'submit'
+          doneBtn.classList = 'btn btn-primary mt-4'
+          doneBtn.id = 'submit-form'
+          doneBtn.textContent = 'Done'
+
+          doneForm.appendChild(doneBtn)
+          doneCol.appendChild(doneForm)
+
+          tableRow.appendChild(tableHeadId)
+          tableRow.appendChild(name)
+          tableRow.appendChild(age)
+          tableRow.appendChild(disease)
+          tableRow.appendChild(date)
+          tableRow.appendChild(doneCol)
+
+          patients.appendChild(tableRow)
+        })
+      }
+      }
+    
+    socket.on('donePatient', function(data) {
+      patients.innerText = ''
+
+      data.patientInRoom.map((element, index) => {
+          let tableRow = document.createElement('tr')
+          let tableHeadId = document.createElement('th')
+          tableHeadId.scope = 'row'
+          tableHeadId.textContent = index + 1
+          let name = document.createElement('td')
+          name.textContent = element.name
+          let age = document.createElement('td')
+          age.textContent = element.age
+          let disease = document.createElement('td')
+          disease.textContent = element.disease
+          let date = document.createElement('td')
+          date.textContent = element.date 
+
+          let doneCol = document.createElement('td')
+          let doneForm = document.createElement('form')
+          doneForm.action = `/doctorRoom/${element.doctorID}/donePatient/${index}`
+          doneForm.method = 'POST'
+          doneForm.style.marginTop = '-24px'
+          let doneBtn = document.createElement('button')
+          doneBtn.type = 'submit'
+          doneBtn.classList = 'btn btn-primary mt-4'
+          doneBtn.id = 'submit-form'
+          doneBtn.textContent = 'Done'
+
+          doneForm.appendChild(doneBtn)
+          doneCol.appendChild(doneForm)
+
+          tableRow.appendChild(tableHeadId)
+          tableRow.appendChild(name)
+          tableRow.appendChild(age)
+          tableRow.appendChild(disease)
+          tableRow.appendChild(date)
+          tableRow.appendChild(doneCol)
+
+          patients.appendChild(tableRow)
+        })
+    })
+
+    socket.on('moveToDoctors', function(data) {
+      renderPatients(data)
+    })
+</script>

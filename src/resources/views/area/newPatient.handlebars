@@ -2,81 +2,129 @@
   <h1 style="text-align: center;">Welcome to Hospital's Lobby</h1>
   <h3>Fill out your infomation!</h3>
   <div id="noti"></div>
-  <form method="POST" action="/lobby/store">
-      <div class="form-group">
-        <label for="name">Full name</label>
-        <input type="text" class="form-control" id="name" name="name" placeholder="Enter full name" required>
-      </div>
-      <div class="form-group">
-        <label for="age">Age</label>
-        <input type="text" class="form-control" id="age" name="age" placeholder="Age" required>
-      </div>
-    
+  <form id="register-frm">
+    <div class="form-group">
+      <label for="name">Full name</label>
+      <input type="text" class="form-control" id="name" name="name" placeholder="Enter full name" required>
+    </div>
+    <div class="form-group">
+      <label for="age">Age</label>
+      <input type="text" class="form-control" id="age" name="age" placeholder="Age" required>
+    </div>
+
     <div class="form-group">
       <label for="disease">Diseases</label>
       <select class="form-control" id="disease" name="disease" required>
-          <option>Cảm xoàn</option>
-            <option>Viêm amidan</option>
-            <option>Covid 19</option>
-            <option>Bong gân</option>
-            <option>Giãn dây chằng</option>
-            <option>Gãy chân</option>
-            <option>Chấn thương sọ não</option>
-            <option>Hở van tim</option>
-            <option>Đái tháo đường</option>
-            <option>Đau tim nhẹ</option>
-            <option>Nhồi máu cơ tim</option>
-            <option>Đau mắt đỏ </option>
-            <option>Đục thủy tinh thể<option>
-            <option>Tăng nhãn áp</option>
+        <option>Cảm xoàn</option>
+        <option>Viêm amidan</option>
+        <option>Covid 19</option>
+        <option>Bong gân</option>
+        <option>Giãn dây chằng</option>
+        <option>Gãy chân</option>
+        <option>Chấn thương sọ não</option>
+        <option>Hở van tim</option>
+        <option>Đái tháo đường</option>
+        <option>Đau tim nhẹ</option>
+        <option>Nhồi máu cơ tim</option>
+        <option>Đau mắt đỏ </option>
+        <option>Đục thủy tinh thể
+        <option>
+        <option>Tăng nhãn áp</option>
       </select>
     </div>
 
-    <button type="submit" class="btn btn-primary mt-4" id="submit-form">Submit</button>
+    <button type="submit" class="btn btn-primary mt-4" id="register-btn">Submit</button>
   </form>
 </div>
 
 <form action="/reception/recievePatient" method="POST">
 
-  <button class="btn btn-primary" id="btn-move" type="submit"
-  style="margin-left: 950px; ">Move to reception</button>
+  <button class="btn btn-primary" id="btn-move" type="submit" style="margin-left: 950px; ">Move to reception</button>
 </form>
 
-<h4 >Patients waiting to be moved to the reception</h4>
+<h4>Patients waiting to be moved to the reception</h4>
 
 <div class="mt-4">
-    <table class="table">
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Name</th>
-      <th scope="col">Age</th>
-      <th scope="col">Diseases</th>
-      <th scope="col">Priority</th>
-      <th scope="col">Date</th>
-    </tr>
-  </thead>
-  <tbody>
-  {{#each array}}
-    <tr>
-      <th scope="row">{{sum @index 1}}</th>
-      <td>{{this.name}}</td>
-      <td>{{this.age}}</td>
-      <td>{{this.disease}}</td>
-      <td>{{this.priority}}</td>
-      <td>{{this.date}}</td>
-    </tr>
-  {{/each}}
-  </tbody>
-</table>
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Age</th>
+        <th scope="col">Diseases</th>
+        <th scope="col">Priority</th>
+        <th scope="col">Date</th>
+      </tr>
+    </thead>
+    <tbody id="patients-render">
+      {{#each array}}
+      <tr>
+        <th scope="row">{{sum @index 1}}</th>
+        <td>{{this.name}}</td>
+        <td>{{this.age}}</td>
+        <td>{{this.disease}}</td>
+        <td>{{this.priority}}</td>
+        <td>{{this.date}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
 </div>
 
-<script src="/socket.io/socket.io.js">
-      // noti that moving to reception
-      const btnMovePatient = document.getElementById("btn-move")
-      const lobbyFrame = document.getElementById("noti")
-      btnMovePatient.addEventListener('click', function() {
-        alert("Successfully moving to reception")
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io();
+
+  const infoSubmit = document.getElementById('register-frm')
+  const patients = document.getElementById('patients-render')
+  const btnRegister = document.getElementById('register-btn')
+
+  btnRegister.onclick = function() {
+    infoSubmit.action = '/lobby/store'
+    infoSubmit.method = 'POST'
+    infoSubmit.submit()
+
+    infoSubmit.name.value ='',
+        infoSubmit.age.value ='',
+        infoSubmit.disease.value = ''
+  }
+
+  const renderPatienst = function(data) {
+    patients.innerText = ''
+    data.array.map((element, index) => {
+
+      let tableRow = document.createElement('tr')
+      let tableHeadId = document.createElement('th')
+      tableHeadId.textContent = index + 1
+      let name = document.createElement('td')
+      name.textContent = element.name
+      let age = document.createElement('td')
+      age.textContent = element.age
+      let disease = document.createElement('td')
+      disease.textContent = element.disease
+      let priority = document.createElement('td')
+      priority.textContent = element.priority
+      let date = document.createElement('td')
+      date.textContent = element.date
+
+      tableRow.appendChild(tableHeadId)
+      tableRow.appendChild(name)
+      tableRow.appendChild(age)
+      tableRow.appendChild(disease)
+      tableRow.appendChild(priority)
+      tableRow.appendChild(date)
+
+      patients.appendChild(tableRow)
+    })
+  }
+
+  socket.on('register-form', function (data) {
+    renderPatienst(data)
+  })
+
+  // lobby refresh data when submit to reception
+  socket.on('moveRepception-form', function(data) {
+    renderPatienst(data)
   })
 
 </script>

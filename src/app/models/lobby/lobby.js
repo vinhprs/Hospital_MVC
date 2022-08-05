@@ -34,4 +34,4 @@ class NewQueueFile {
     
 }
 
-module.exports =  NewQueueFile
+module.exports =  { PriorityQueue: NewQueueFile, lobbyData: lobbyToSave }

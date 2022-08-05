@@ -24,6 +24,7 @@ class NewQueueFile {
                                 .catch(e => {
                                         throw new Error(e)
                                 })
+                                return [inLobby ,inReception]
                         }
                 } catch(e) {
                     throw new Error(e)  
@@ -42,7 +43,8 @@ class NewQueueFile {
 
         static async sortPatients() {
                 try {
-                        await fileHandler.sortFile(joinHelper(__dirname, 'reception.json'))
+                        const inFile = await fileHandler.sortFile(joinHelper(__dirname, 'reception.json'))
+                        return inFile
                 } catch {
                         throw new Error('Unable to sort patients!')
                 }
@@ -50,7 +52,8 @@ class NewQueueFile {
 
         static async editPatient(number, index) {
                 try {
-                        await fileHandler.editFile(joinHelper(__dirname, 'reception.json'), number, index)
+                        const inFile = await fileHandler.editFile(joinHelper(__dirname, 'reception.json'), number, index)
+                        return inFile
                 } catch {
                         throw new Error('Unable to edit patients!')
                 }

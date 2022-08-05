@@ -13,23 +13,30 @@ class ReceptionController {
 
     // [POST] /reception/recievePatient
     static async recievePatient(req, res) {
+        const socket = req.app.get('socketIO')
 
-        await receptionModel.moveToReception()
+        const [inLobbyData ,inReceptionData] =  await receptionModel.moveToReception()
+        socket.emit('moveRepception-form', {inLobbyData ,inReceptionData})
 
         res.redirect('/lobby/newPatient')
     }
     
     // [POST] /reception/sort
     static async sort(req, res) {
+        const socket = req.app.get('socketIO')
         
-        await receptionModel.sortPatients()
+        const sortDate =  await receptionModel.sortPatients()
+        socket.emit('editReception', sortDate)
 
         res.redirect('/reception')
     }
 
     // [POST] /receptio/edit/:index
     static async edit(req, res) {
-        await receptionModel.editPatient(req.body.number, req.params.index)
+        const socket = req.app.get('socketIO')
+
+        const editNumber =  await receptionModel.editPatient(req.body.number, req.params.index)
+        socket.emit('editReception', editNumber)
         
         res.redirect('/reception')
     }

@@ -45,7 +45,8 @@ class NewQueueFile {
                 name: d.name,
                 id: d.id,
                 specialist: d.specialist,
-                slot: d.slot
+                slot: d.slot,
+                currentSlot: d.currentSlot
             }))
         } catch {
             throw new Error('Fail to get specialist of the doctors!')
@@ -73,6 +74,7 @@ class NewQueueFile {
                 }
             }
             await fileHandler.writeFile(doctorFile, doctors)
+            return doctors
         } catch {
             throw new Error('Fail to update slot!')
         }
@@ -88,9 +90,24 @@ class NewQueueFile {
         return inReception
     }
 
+    static removeDuplicate(invidualDoctor) {
+        const filteredArr = invidualDoctor.reduce((acc, current) => {
+            const x = acc.find(item => item.id === current.id);
+            if (!x) {
+              return acc.concat([current]);
+            } else {
+              return acc;
+            }
+          }, []);
+
+        return filteredArr
+    }
+
     static async movePatients(patientSpecialist, doctorSpecialist) {
         const inReception = await fileHandler.readFile(receptionPath)
         const acceptRemove = []
+        let doctorData
+        const invidualDoctor = []
         try {
 
             for(let i=0; i< patientSpecialist.length; i++) {
@@ -101,16 +118,28 @@ class NewQueueFile {
                         inReception.items[i].doctorID = doctorSpecialist[j].id
     
                         inDoctorRoom.items.push(inReception.items[i])
-                        this.updateSlot(doctorSpecialist[j].name, inDoctorRoom.items.length)
+                        doctorData = await this.updateSlot(doctorSpecialist[j].name, inDoctorRoom.items.length)
     
                         acceptRemove.push(inReception.items[i])
                         await fileHandler.writeFile(joinHelper(__dirname, `${doctorSpecialist[j].name}.json`), inDoctorRoom)
+
+                        invidualDoctor.unshift({
+                            'id': doctorSpecialist[j].id,
+                            'patients': inDoctorRoom.items
+                        })
                         break loopDoctor
                     }
+                    invidualDoctor.unshift({
+                        'id': doctorSpecialist[j].id,
+                        'patients': inDoctorRoom.items
+                    })
                 }
             }
             const restPatientInReception = this.removeFromReception(acceptRemove, inReception)
             await fileHandler.writeFile(receptionPath, restPatientInReception)
+            
+            const filterdInvidualDoctor = this.removeDuplicate(invidualDoctor)
+            return [restPatientInReception, doctorData, filterdInvidualDoctor]
         } catch {
             throw new Error('Unable to move patients!')
         }
@@ -119,10 +148,12 @@ class NewQueueFile {
     static async movetoDoctorRoom() {
             const [patientSpecialist, doctorSpecialist] = await Promise.all([this.patientSpecialist(), this.doctorSpecialist()])
             
-            await Promise.all([this.doctorRooms(), this.movePatients(patientSpecialist, doctorSpecialist)])
+            const [restPatientInReception, doctorRoomData, invidualDoctor] = await this.movePatients(patientSpecialist, doctorSpecialist)
+            await Promise.all([this.doctorRooms(), restPatientInReception])
             .catch(e => {
                 throw new Error(e)
             });
+            return [restPatientInReception, doctorRoomData, invidualDoctor]
     }
 
     static async getPatients(id) {
@@ -155,6 +186,8 @@ class NewQueueFile {
             patientInRoom.items.splice(index,1)
 
             await fileHandler.writeFile(joinHelper(__dirname, `${doctorName}.json`), patientInRoom)
+            
+            return [doctors, patientInRoom.items]
 
         } catch(e) {
             throw new Error(e)
