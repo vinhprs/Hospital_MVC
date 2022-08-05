@@ -3,12 +3,13 @@ const hbs  = require('express-handlebars')
 const path = require('path')
 const app = express()
 const port = process.env.PORT || 3000
-const bodyParser = require('body-parser');
+const bodyParser = require('body-parser')
 const route = require('./routes')
-const http = require('http');
-const server = http.createServer(app);
-const { Server } = require("socket.io");
-const io = new Server(server);
+
+const http = require('http')
+const server = http.createServer(app)
+const { Server } = require("socket.io")
+const io = new Server(server)
 
 // use static file
 app.use(express.static(path.join(__dirname, 'public')))
@@ -28,7 +29,7 @@ io.on('connection', (socket) => {
 })
 
 // Return body obj for Post method
-app.use(express.json());
+app.use(express.json())
 // app.use(express.urlencoded({
 //   extended: false
 // }));

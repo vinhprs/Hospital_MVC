@@ -10,7 +10,7 @@ class LobbyController {
         res.render('area/newPatient', patients)
     }
 
-    // [POST] /lobby
+    // [POST] /lobby/store
     static async store(req, res ) {
         const socket = req.app.get('socketIO')
         const formData = req.body

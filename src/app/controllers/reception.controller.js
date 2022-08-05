@@ -31,7 +31,7 @@ class ReceptionController {
         res.redirect('/reception')
     }
 
-    // [POST] /receptio/edit/:index
+    // [POST] /reception/edit/:index
     static async edit(req, res) {
         const socket = req.app.get('socketIO')
 

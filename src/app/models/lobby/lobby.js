@@ -10,7 +10,7 @@ const fileName = path.join(__dirname, 'lobby.json')
 
 class NewQueueFile {
 
-    // add patients to lobby
+    // add patients to lobby 
     static async Enqueue(data) {
         try {
 

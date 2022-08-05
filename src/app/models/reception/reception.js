@@ -8,6 +8,7 @@ class NewQueueFile {
 
         static async moveToReception() {
                 try {
+                        
                         const [inLobby,inReception] = await 
                         Promise.all([fileHandler.readFile(lobbyPath),fileHandler.readFile(joinHelper(__dirname, 'reception.json'))])
                         const acceptMove = 10 - inReception.items.length

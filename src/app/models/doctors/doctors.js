@@ -174,7 +174,7 @@ class NewQueueFile {
             const patientInRoom = await fileHandler.readFile(joinHelper(__dirname, `${doctorName}.json`))
 
             const doctors = await fileHandler.readFile(doctorFile)
-            // cập nhập lại số bệnh phòng đang ở trong phòng
+            // cập nhập lại số bệnh nhân đang ở trong phòng
             for(let i=0; i< doctors.doctors.length; i++) {
                 if(doctors.doctors[i].id === id && doctors.doctors[i].currentSlot >0) {
                     doctors.doctors[i].currentSlot--

@@ -64,6 +64,7 @@ class FileClass {
         } catch(e) {
             throw new Error(e)
         }
+        
     }
 
     // add insurance number for patients

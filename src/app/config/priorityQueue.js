@@ -11,6 +11,7 @@ class PriorityQueue {
   size() {
     return this.array.length;
   }
+  
   isEmpty() {
     return this.size() == 0;
   }
